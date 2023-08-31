@@ -6,6 +6,8 @@ public class DrawBallPath : MonoBehaviour
 {
     [SerializeField]
     LineRenderer lineRenderer;
+    [SerializeField]
+    LayerMask layersToCollide;
 
     RaycastHit2D raycastHit2D;
 
@@ -21,7 +23,7 @@ public class DrawBallPath : MonoBehaviour
         startPosition = transform.position;
         startDirection = transform.up;
         //Debug.Log(startDirection + " , " + transform.localEulerAngles);
-        raycastHit2D = Physics2D.Raycast(transform.position, startDirection);
+        raycastHit2D = Physics2D.Raycast(transform.position, startDirection, layersToCollide);
 
         if(raycastHit2D)
         {

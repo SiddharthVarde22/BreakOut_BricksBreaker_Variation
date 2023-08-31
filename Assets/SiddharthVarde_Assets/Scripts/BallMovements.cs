@@ -6,8 +6,12 @@ public class BallMovements : MonoBehaviour
 {
     [SerializeField]
     float forceToAdd = 10;
+    [SerializeField]
+    float ballMovementSpeed = 10;
 
     Rigidbody2D rigidbody;
+
+    bool isMovingTowardsPlayer;
 
     void Awake()
     {
@@ -17,7 +21,16 @@ public class BallMovements : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(isMovingTowardsPlayer)
+        {
+            Vector3 target = GameManager.Instance.Player.position;
+            transform.position += (target - transform.position).normalized * ballMovementSpeed * Time.deltaTime;
+
+            if((transform.position - target).magnitude < 0.1f)
+            {
+                gameObject.SetActive(false);
+            }
+        }
     }
 
     public void BounceInDirection(Vector2 direction)
@@ -56,5 +69,21 @@ public class BallMovements : MonoBehaviour
         }
 
         BounceInDirection(new Vector2(currentDirection.x + xDirectionChange, currentDirection.y + directionChange));
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        BoundryBehaviour bottomTrigger = null;
+
+        if(collision.TryGetComponent<BoundryBehaviour>(out bottomTrigger))
+        {
+            rigidbody.velocity = Vector2.zero;
+            isMovingTowardsPlayer = true;
+        }
+    }
+
+    private void OnDisable()
+    {
+        isMovingTowardsPlayer = false;
     }
 }

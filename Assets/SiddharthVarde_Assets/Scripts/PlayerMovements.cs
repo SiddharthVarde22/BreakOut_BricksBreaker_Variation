@@ -21,6 +21,7 @@ public class PlayerMovements : MonoBehaviour
     {
         leftX = BounryCalculator.Instance.GetLeftX() + 0.5f;
         rightX = BounryCalculator.Instance.GetRightX() - 0.5f;
+        GameManager.Instance.Player = transform;
     }
 
     // Update is called once per frame
