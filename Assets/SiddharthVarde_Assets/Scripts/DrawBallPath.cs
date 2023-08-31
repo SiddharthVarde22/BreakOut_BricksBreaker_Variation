@@ -39,6 +39,9 @@ public class DrawBallPath : MonoBehaviour
 
     private void OnDisable()
     {
-        lineRenderer.gameObject.SetActive(false);
+        if (lineRenderer != null)
+        {
+            lineRenderer.gameObject.SetActive(false);
+        }
     }
 }

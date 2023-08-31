@@ -9,11 +9,9 @@ public class BallMovements : MonoBehaviour
 
     Rigidbody2D rigidbody;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
-        BounceInDirection(transform.right);
     }
 
     // Update is called once per frame
@@ -22,7 +20,7 @@ public class BallMovements : MonoBehaviour
         
     }
 
-    void BounceInDirection(Vector2 direction)
+    public void BounceInDirection(Vector2 direction)
     {
         rigidbody.velocity = direction * forceToAdd;
     }
