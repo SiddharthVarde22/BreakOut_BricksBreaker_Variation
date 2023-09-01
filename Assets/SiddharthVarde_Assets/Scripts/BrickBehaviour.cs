@@ -13,6 +13,7 @@ public class BrickBehaviour : MonoBehaviour
     void Start()
     {
         //register as a brick in game manager
+        GameManager.Instance.IncreaseNumberOfBricksInLevel();
         EditNumberOfCollisionsText();
     }
 
@@ -45,6 +46,7 @@ public class BrickBehaviour : MonoBehaviour
     public void DestroyBrick()
     {
         //reduce number of remaining bricks from game manager
+        GameManager.Instance.DecreaseNumberOfBricksInLevel();
         Destroy(gameObject);
     }
 
