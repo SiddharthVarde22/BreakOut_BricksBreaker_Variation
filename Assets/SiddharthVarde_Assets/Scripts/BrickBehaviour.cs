@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class BrickBehaviour : MonoBehaviour
 {
-    int numberOfCollisionsNedded = 30;
+    protected int numberOfCollisionsNedded = 30;
 
     [SerializeField]
     TextMesh numberOfCollisionsText;
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         //register as a brick in game manager
         GameManager.Instance.IncreaseNumberOfBricksInLevel();
@@ -43,15 +43,31 @@ public class BrickBehaviour : MonoBehaviour
         }
     }
 
-    public void DestroyBrick()
+    virtual public void DestroyBrick()
     {
         //reduce number of remaining bricks from game manager
         GameManager.Instance.DecreaseNumberOfBricksInLevel();
+        //Debug.Log(gameObject.name);
         Destroy(gameObject);
     }
 
     void EditNumberOfCollisionsText()
     {
         numberOfCollisionsText.text = numberOfCollisionsNedded.ToString();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        HorizontalBrick horizontalBrick = null;
+        BlasterBrick blasterBrick = null;
+
+        if(collision.TryGetComponent<HorizontalBrick>(out horizontalBrick))
+        {
+            DestroyBrick();
+        }
+        else if(collision.TryGetComponent<BlasterBrick>(out blasterBrick))
+        {
+            DestroyBrick();
+        }
     }
 }
