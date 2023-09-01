@@ -13,9 +13,13 @@ public class BallManager : MonoBehaviour
     [SerializeField]
     float timeIntervalToShootTheball;
 
+    int numberOfBallsInHold = 50;
+    PlayerManager playerManager;
+
     private void Start()
     {
         spawnedBalls = new List<BallMovements>();
+        playerManager = GetComponent<PlayerManager>();
     }
 
     // Update is called once per frame
@@ -29,7 +33,8 @@ public class BallManager : MonoBehaviour
 
     IEnumerator ShootTheBall()
     {
-        GetComponent<PlayerMovements>().enabled = false;
+        //GetComponent<PlayerMovements>().enabled = false;
+        playerManager.DisablePlayer();
         int i = NumberOfBallsToSpawn - spawnedBalls.Count;
         int x = i;
 
@@ -40,6 +45,7 @@ public class BallManager : MonoBehaviour
                 BallMovements ball = Instantiate(ballPrefab, transform.position, Quaternion.identity).GetComponent<BallMovements>();
                 spawnedBalls.Add(ball);
                 ball.BounceInDirection(transform.up);
+                numberOfBallsInHold--;
                 yield return new WaitForSeconds(timeIntervalToShootTheball);
                 i--;
             }
@@ -50,8 +56,18 @@ public class BallManager : MonoBehaviour
             spawnedBalls[j].gameObject.SetActive(true);
             spawnedBalls[j].transform.position = transform.position;
             spawnedBalls[j].BounceInDirection(transform.up);
+            numberOfBallsInHold--;
             yield return new WaitForSeconds(timeIntervalToShootTheball);
         }
-        GetComponent<PlayerMovements>().enabled = true;
+        //GetComponent<PlayerMovements>().enabled = true;
+    }
+
+    public void BallRecievedBack()
+    {
+        numberOfBallsInHold++;
+        if(numberOfBallsInHold >= NumberOfBallsToSpawn)
+        {
+            playerManager.EnablePlayer();
+        }
     }
 }

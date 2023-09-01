@@ -12,6 +12,7 @@ public class BallMovements : MonoBehaviour
     Rigidbody2D rigidbody;
 
     bool isMovingTowardsPlayer;
+    static BallManager ballManagerRefrence = null;
 
     void Awake()
     {
@@ -28,6 +29,11 @@ public class BallMovements : MonoBehaviour
 
             if((transform.position - target).magnitude < 0.1f)
             {
+                if(ballManagerRefrence == null)
+                {
+                    ballManagerRefrence = GameManager.Instance.Player.GetComponent<BallManager>();
+                }
+                ballManagerRefrence.BallRecievedBack();
                 gameObject.SetActive(false);
             }
         }
