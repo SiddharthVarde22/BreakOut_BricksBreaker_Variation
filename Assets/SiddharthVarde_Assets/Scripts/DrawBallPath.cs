@@ -23,7 +23,7 @@ public class DrawBallPath : MonoBehaviour
         startPosition = transform.position;
         startDirection = transform.up;
         //Debug.Log(startDirection + " , " + transform.localEulerAngles);
-        raycastHit2D = Physics2D.Raycast(transform.position, startDirection, layersToCollide);
+        raycastHit2D = Physics2D.Raycast(transform.position, startDirection,Mathf.Infinity ,layersToCollide);
 
         if(raycastHit2D)
         {

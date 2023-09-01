@@ -48,6 +48,7 @@ public class BallManager : MonoBehaviour
         for(int j = x; j < NumberOfBallsToSpawn; j++)
         {
             spawnedBalls[j].gameObject.SetActive(true);
+            spawnedBalls[j].transform.position = transform.position;
             spawnedBalls[j].BounceInDirection(transform.up);
             yield return new WaitForSeconds(timeIntervalToShootTheball);
         }
